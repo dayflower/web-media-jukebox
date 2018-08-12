@@ -1,0 +1,32 @@
+{
+  "name": "web-media-jukebox",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.2",
+    "@fortawesome/free-solid-svg-icons": "^5.2.0",
+    "@fortawesome/vue-fontawesome": "^0.1.1",
+    "element-ui": "^2.4.5",
+    "vue": "^2.5.16"
+  },
+  "devDependencies": {
+    "@vue/cli-service": "^3.0.0-rc.12",
+    "vue-cli-plugin-element": "^1.0.0",
+    "vue-cli-plugin-pug": "^1.0.5",
+    "vue-template-compiler": "^2.5.16"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}

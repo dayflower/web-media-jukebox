@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    mp4info (1.7.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  mp4info
+
+BUNDLED WITH
+   1.16.2
