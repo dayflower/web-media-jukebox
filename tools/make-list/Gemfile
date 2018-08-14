@@ -4,4 +4,5 @@ source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-gem "mp4info"
+gem 'ruby-audioinfo'
+gem 'mp4info', github: 'arbarlow/ruby-mp4info.git'

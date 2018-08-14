@@ -30,7 +30,9 @@
             el-table-column(prop="album")
             el-table-column(prop="title")
         div#media
-          video#player(controls, :src="videoSrc", @ended="ended", @loadeddata="loadedData")
+          el-alert#title(:title="selectedInfo", type="info", :closable="false", v-if="selectedTitle !== undefined")
+          audio#audioPlayer(controls, :src="audioSrc", @ended="ended", @loadeddata="audioLoadedData", v-show="currentType === 'audio'")
+          video#videoPlayer(controls, :src="videoSrc", @ended="ended", @loadeddata="videoLoadedData", v-show="currentType === 'video'")
 </template>
 
 <script>
@@ -43,7 +45,16 @@ export default {
       randomMode: false,
       songs: undefined,
       selectedSong: undefined,
-      videoSrc: undefined
+      selectedTitle: undefined,
+      selectedAlbum: undefined,
+      currentType: undefined,
+      videoSrc: undefined,
+      audioSrc: undefined,
+    }
+  },
+  computed: {
+    selectedInfo: function () {
+      return `${this.selectedAlbum} ${this.selectedTitle}`
     }
   },
   created: function () {
@@ -56,10 +67,24 @@ export default {
     this.loadList()
   },
   methods: {
+    currentPlayer: function () {
+      if (this.currentType === 'audio') {
+        return document.getElementById('audioPlayer')
+      } else {
+        return document.getElementById('videoPlayer')
+      }
+    },
     songSelected: function (song) {
       this.selectedSong = song.id
+      this.selectedTitle = song.title
+      this.selectedAlbum = song.album
+      this.currentType = song.type
 
-      this.videoSrc = song.url
+      if (this.currentType === 'audio') {
+        this.audioSrc = song.url
+      } else {
+        this.videoSrc = song.url
+      }
     },
     randomIndex: function () {
       return Math.floor(Math.random() * this.songs.length)
@@ -75,18 +100,21 @@ export default {
         }
       }
 
+      this.btnStopClicked()
       this.$refs.songsTable.setCurrentRow(this.songs[i])
     },
     selectNextSong: function () {
       const cur = this.selectedSong || -1
       const i = ( cur + 1 ) % this.songs.length
 
+      this.btnStopClicked()
       this.$refs.songsTable.setCurrentRow(this.songs[i])
     },
     selectPrevSong: function () {
       const cur = this.selectedSong || 0
       const i = ( cur + this.songs.length - 1 ) % this.songs.length
 
+      this.btnStopClicked()
       this.$refs.songsTable.setCurrentRow(this.songs[i])
     },
     loadList: function () {
@@ -113,8 +141,11 @@ export default {
         this.selectNextSong()
       }
     },
-    loadedData: function (ev) {
-      document.getElementById('player').play()
+    audioLoadedData: function (ev) {
+      document.getElementById('audioPlayer').play()
+    },
+    videoLoadedData: function (ev) {
+      document.getElementById('videoPlayer').play()
     },
     keyDown: function (ev) {
       console.log(ev)
@@ -139,7 +170,7 @@ export default {
         return
       case 'Space':
       case 'Enter':
-        if (document.getElementById('player').paused) {
+        if (this.currentPlayer().paused) {
           this.btnPlayClicked()
         } else {
           this.btnStopClicked()
@@ -162,10 +193,10 @@ export default {
         return
       }
 
-      document.getElementById('player').play()
+      this.currentPlayer().play()
     },
     btnStopClicked: function (ev) {
-      document.getElementById('player').pause()
+      this.currentPlayer().pause()
     },
     btnNextClicked: function (ev) {
       this.selectNextSong()
@@ -222,7 +253,12 @@ body {
   position: sticky;
 }
 
-#player {
+#title {
+  margin-bottom: 18px;
+}
+
+#audioPlayer,
+#videoPlayer {
   width: 100%;
 }
 </style>
