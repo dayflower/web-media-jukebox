@@ -119,26 +119,26 @@ export default {
     keyDown: function (ev) {
       console.log(ev)
       switch (ev.code) {
-      case "KeyR":
+      case 'KeyR':
         this.btnRandomPlayClicked()
         return
-      case "ArrowUp":
-      case "ArrowLeft":
+      case 'ArrowUp':
+      case 'ArrowLeft':
         this.btnPrevClicked()
         return
-      case "ArrowDown":
-      case "ArrowRight":
+      case 'ArrowDown':
+      case 'ArrowRight':
         this.btnNextClicked()
         return
-      case "KeyP":
+      case 'KeyP':
         this.btnPlayClicked()
         return
-      case "Escape":
-      case "KeyS":
+      case 'Escape':
+      case 'KeyS':
         this.btnStopClicked()
         return
-      case "Space":
-      case "Enter":
+      case 'Space':
+      case 'Enter':
         if (document.getElementById('player').paused) {
           this.btnPlayClicked()
         } else {
